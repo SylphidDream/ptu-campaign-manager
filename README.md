@@ -1,4 +1,4 @@
-# PTU Campaign Manager
+# PTU Campaign Manager - In Progress -
 
 ## Goals
 
@@ -19,7 +19,7 @@ Java 21
 Spring Boot
 PostgreSQL
 React (planned)
-Docker (planned)
+Docker
 
 ## Roadmap
 
