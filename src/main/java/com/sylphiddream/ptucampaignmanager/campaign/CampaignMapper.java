@@ -1,6 +1,7 @@
-package com.sylphiddream.ptucampaignmanager.campaign.dto;
+package com.sylphiddream.ptucampaignmanager.campaign;
 
-import com.sylphiddream.ptucampaignmanager.campaign.CampaignEntity;
+import com.sylphiddream.ptucampaignmanager.campaign.dto.CampaignResponse;
+import com.sylphiddream.ptucampaignmanager.campaign.dto.CreateCampaignRequest;
 
 public final class CampaignMapper {
 
@@ -21,6 +22,8 @@ public final class CampaignMapper {
                 entity.getId(),
                 entity.getName(),
                 entity.getDescription(),
+                entity.getCurrentLocation(),
+                entity.getCurrentDate(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );

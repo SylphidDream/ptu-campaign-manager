@@ -1,7 +1,7 @@
 package com.sylphiddream.ptucampaignmanager.campaign;
 
-import com.sylphiddream.ptucampaignmanager.campaign.dto.CampaignMapper;
 import com.sylphiddream.ptucampaignmanager.campaign.dto.CampaignResponse;
+import com.sylphiddream.ptucampaignmanager.campaign.dto.CreateCampaignRequest;
 import com.sylphiddream.ptucampaignmanager.campaign.dto.UpdateCampaignRequest;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +18,9 @@ public class CampaignService {
 
     public List<CampaignResponse> getAllCampaigns() {
           List<CampaignEntity> campaignEntities = repository.findAll();
-          List<CampaignResponse> campaignResponses = campaignEntities.stream()
+          return campaignEntities.stream()
                   .map(campaign -> CampaignMapper.toResponse(campaign))
                   .toList();
-          return campaignResponses;
     }
 
     public CampaignResponse getCampaignById(Long id){
@@ -31,7 +30,8 @@ public class CampaignService {
         );
     }
 
-    public CampaignResponse createCampaign(CampaignEntity campaign){
+    public CampaignResponse createCampaign(CreateCampaignRequest request){
+        CampaignEntity campaign = CampaignMapper.toEntity(request);
         return CampaignMapper.toResponse(repository.save(campaign));
     }
 
