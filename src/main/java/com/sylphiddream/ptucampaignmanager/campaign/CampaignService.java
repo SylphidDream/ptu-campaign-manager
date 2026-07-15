@@ -1,5 +1,8 @@
 package com.sylphiddream.ptucampaignmanager.campaign;
 
+import com.sylphiddream.ptucampaignmanager.campaign.dto.CampaignResponse;
+import com.sylphiddream.ptucampaignmanager.campaign.dto.CreateCampaignRequest;
+import com.sylphiddream.ptucampaignmanager.campaign.dto.UpdateCampaignRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,21 +16,35 @@ public class CampaignService {
         this.repository = repository;
     }
 
-    public List<CampaignEntity> getAllCampaigns() {
-          return repository.findAll();
+    public List<CampaignResponse> getAllCampaigns() {
+          List<CampaignEntity> campaignEntities = repository.findAll();
+          return campaignEntities.stream()
+                  .map(campaign -> CampaignMapper.toResponse(campaign))
+                  .toList();
     }
 
-    public CampaignEntity getCampaignById(Long id){
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Campaign not found: " + id));
+    public CampaignResponse getCampaignById(Long id){
+        return CampaignMapper.toResponse(repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Campaign not found: " + id)
+                )
+        );
     }
 
-    public CampaignEntity createCampaign(CampaignEntity campaign){
-        return repository.save(campaign);
+    public CampaignResponse createCampaign(CreateCampaignRequest request){
+        CampaignEntity campaign = CampaignMapper.toEntity(request);
+        return CampaignMapper.toResponse(repository.save(campaign));
     }
 
-    public CampaignEntity updateCampaign(CampaignEntity changes){
-        return repository.save(changes);
+    public CampaignResponse updateCampaign(Long id, UpdateCampaignRequest changes){
+        CampaignEntity current = repository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Campaign not found.")
+                );
+        current.setName(changes.name());
+        current.setDescription(changes.description());
+        current.setCurrentLocation(changes.currentLocation());
+        current.setCurrentDate(changes.currentDate());
+        return CampaignMapper.toResponse(repository.save(current));
     }
 
     public void deleteCampaign(Long id){
