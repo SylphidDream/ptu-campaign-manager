@@ -48,6 +48,8 @@ public class CampaignService {
     }
 
     public void deleteCampaign(Long id){
+        repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Campaign not found: " + id)
+        );
         repository.deleteById(id);
     }
 }
