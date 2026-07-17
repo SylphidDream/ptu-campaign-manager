@@ -15,7 +15,8 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationFailure(
-            MethodArgumentNotValidException exception
+            MethodArgumentNotValidException exception,
+            HttpServletRequest request
     ){
         Map<String,String> errors = new LinkedHashMap<>();
 
@@ -29,7 +30,9 @@ public class GlobalExceptionHandler {
                 );
         ValidationErrorResponse response = new ValidationErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 "Validation failed",
+                request.getRequestURI(),
                 errors
         );
         return ResponseEntity.badRequest().body(response);
@@ -60,7 +63,7 @@ public class GlobalExceptionHandler {
         ApiErrorResponse response = new ApiErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                "Unreadable Request",
+                "Request body could not be read.",
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
