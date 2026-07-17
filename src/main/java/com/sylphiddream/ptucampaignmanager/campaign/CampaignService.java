@@ -3,6 +3,7 @@ package com.sylphiddream.ptucampaignmanager.campaign;
 import com.sylphiddream.ptucampaignmanager.campaign.dto.CampaignResponse;
 import com.sylphiddream.ptucampaignmanager.campaign.dto.CreateCampaignRequest;
 import com.sylphiddream.ptucampaignmanager.campaign.dto.UpdateCampaignRequest;
+import com.sylphiddream.ptucampaignmanager.common.error.CampaignNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,15 +18,15 @@ public class CampaignService {
     }
 
     public List<CampaignResponse> getAllCampaigns() {
-          List<CampaignEntity> campaignEntities = repository.findAll();
-          return campaignEntities.stream()
-                  .map(campaign -> CampaignMapper.toResponse(campaign))
-                  .toList();
+        List<CampaignEntity> campaignEntities = repository.findAll();
+        return campaignEntities.stream()
+                .map(campaign -> CampaignMapper.toResponse(campaign))
+                .toList();
     }
 
     public CampaignResponse getCampaignById(Long id){
         return CampaignMapper.toResponse(repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Campaign not found: " + id)
+                .orElseThrow(() -> new CampaignNotFoundException(id)
                 )
         );
     }
@@ -38,7 +39,7 @@ public class CampaignService {
     public CampaignResponse updateCampaign(Long id, UpdateCampaignRequest changes){
         CampaignEntity current = repository.findById(id)
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Campaign not found.")
+                        new CampaignNotFoundException(id)
                 );
         current.setName(changes.name());
         current.setDescription(changes.description());
@@ -48,7 +49,7 @@ public class CampaignService {
     }
 
     public void deleteCampaign(Long id){
-        repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Campaign not found: " + id)
+        repository.findById(id).orElseThrow(() -> new CampaignNotFoundException(id)
         );
         repository.deleteById(id);
     }
