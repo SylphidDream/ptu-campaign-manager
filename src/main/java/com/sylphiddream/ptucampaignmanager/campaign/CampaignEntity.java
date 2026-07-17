@@ -30,7 +30,7 @@ public class CampaignEntity {
     private String currentLocation;
 
     @Setter
-    @Column(length = 100)
+    @Column(length = 100, name="campaign_date")
     private String currentDate;
 
     @Column(nullable = false, updatable = false)
