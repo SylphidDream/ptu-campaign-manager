@@ -8,13 +8,13 @@ public record UpdateCampaignRequest(
         @Size(max = 100, message = "Name must not exceed 100 characters.")
         String name,
 
-        @Size(max = 5000, message = "Name must not exceed 5000 characters.")
+        @Size(max = 5000, message = "Description must not exceed 5000 characters.")
         String description,
 
-        @Size(max = 150, message = "Name must not exceed 150 characters.")
+        @Size(max = 150, message = "Current Location must not exceed 150 characters.")
         String currentLocation,
 
-        @Size(max = 100, message = "Name must not exceed 100 characters.")
+        @Size(max = 100, message = "Current Date must not exceed 100 characters.")
         String currentDate
 ) {
 }
