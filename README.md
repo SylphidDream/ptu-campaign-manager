@@ -24,6 +24,6 @@ Docker
 ## Roadmap
 
 - [x] Project setup
-- [ ] Campaign CRUD
+- [x] Campaign CRUD
 - [ ] Character CRUD
 - [ ] Pokemon CRUD
