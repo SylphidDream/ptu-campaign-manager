@@ -25,5 +25,8 @@ Docker
 
 - [x] Project setup
 - [x] Campaign CRUD
+- [ ] Campaign Frontend
 - [ ] Character CRUD
+- [ ] Character Frontend
 - [ ] Pokemon CRUD
+- [ ] Pokemon Frontend
