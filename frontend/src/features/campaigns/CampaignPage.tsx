@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { getCampaigns } from './campaignApi'
+import {deleteCampaign, getCampaigns} from './campaignApi'
+import { CreateCampaignForm } from "./CreateCampaignForm.tsx";
 import { CampaignList } from './components/CampaignList'
 import type { CampaignResponse } from './types'
+import {Container} from "react-bootstrap";
 
 export function CampaignPage() {
     const [campaigns, setCampaigns] = useState<
@@ -50,10 +52,52 @@ export function CampaignPage() {
         )
     }
 
+    function handleCampaignCreated(campaign: CampaignResponse) {
+        setCampaigns((currentCampaigns) => [
+            ...currentCampaigns,
+            campaign,
+        ])
+    }
+
+    async function handleDelete(id: number) {
+        const confirmed = window.confirm(
+            "Delete this campaign?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            await deleteCampaign(id);
+
+            setCampaigns(current =>
+                current.filter(campaign => campaign.id !== id)
+            );
+        }
+        catch (error) {
+            alert("Failed to delete campaign.");
+        }
+    }
+
     return (
-        <main>
-            <h1>Campaigns</h1>
-            <CampaignList campaigns={campaigns} />
-        </main>
+        <Container className="py-4">
+            <div className="row">
+                <CreateCampaignForm
+                    onCampaignCreated={handleCampaignCreated}
+                />
+            </div>
+            <div className="row">
+                <h1>Campaigns</h1>
+            </div>
+            {campaigns.length === 0 ? (
+                <p>No campaigns have been created yet.</p>
+            ) : (
+                <CampaignList
+                    campaigns={campaigns}
+                    onDelete={handleDelete}
+                />
+            )}
+        </Container>
     )
 }
