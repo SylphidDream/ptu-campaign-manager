@@ -43,15 +43,6 @@ export function CampaignPage() {
         return <p role="alert">{errorMessage}</p>
     }
 
-    if (campaigns.length === 0) {
-        return (
-            <main>
-                <h1>Campaigns</h1>
-                <p>No campaigns have been created yet.</p>
-            </main>
-        )
-    }
-
     function handleCampaignCreated(campaign: CampaignResponse) {
         setCampaigns((currentCampaigns) => [
             ...currentCampaigns,
